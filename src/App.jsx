@@ -27,14 +27,17 @@ function App() {
   const [selectedPiece, setSelectedPiece] = useState(null);
   const [validMoves, setValidMoves] = useState([]);
   const [gameResult, setGameResult] = useState(null);
+  const [showWinModal, setShowWinModal] = useState(true);
 
   // Check for win condition after each move
   useEffect(() => {
     const result = checkWinCondition(board);
     if (result) {
       setGameResult(result);
+      setShowWinModal(true);
     } else {
       setGameResult(null);
+      setShowWinModal(true);
     }
   }, [board]);
 
@@ -135,10 +138,15 @@ function App() {
     resetGame();
     setSelectedPiece(null);
     setGameResult(null);
+    setShowWinModal(true);
   };
 
   const handleCancelSelection = () => {
     setSelectedPiece(null);
+  };
+
+  const handleHideWinModal = () => {
+    setShowWinModal(false);
   };
 
   const getPlayerName = (player) => {
@@ -199,11 +207,12 @@ function App() {
       </main>
 
       {/* Win modal */}
-      {gameResult && (
-        <div className="win-modal">
-          <div className="win-content">
+      {gameResult && showWinModal && (
+        <div className="win-modal" onClick={handleHideWinModal}>
+          <div className="win-content" onClick={e => e.stopPropagation()}>
             <h2>🎉 {getPlayerName(gameResult.player)} vinner! 🎉</h2>
             <p>Gratulerer med seieren!</p>
+            <p className="win-instruction">Klikk utenfor denne boksen for å se vinnerlinja</p>
             <button className="play-again-btn" onClick={handleNewGame}>
               Spill igjen
             </button>

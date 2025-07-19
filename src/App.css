@@ -178,6 +178,14 @@
   font-weight: bold;
 }
 
+.win-instruction {
+  color: #666 !important;
+  font-size: 0.9rem !important;
+  font-weight: normal !important;
+  margin: 0 0 20px 0 !important;
+  font-style: italic;
+}
+
 .play-again-btn {
   background: linear-gradient(45deg, #4CAF50, #45a049);
   color: white;
