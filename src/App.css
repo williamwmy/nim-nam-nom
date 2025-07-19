@@ -1,5 +1,5 @@
 .app {
-  width: 100%;
+  width: 100vw;
   height: 100vh;
   height: 100dvh; /* Dynamic viewport height for mobile */
   display: flex;
@@ -13,15 +13,29 @@
   left: 0;
   right: 0;
   bottom: 0;
+  margin: 0;
+  padding: 0;
+  
+  /* Handle safe areas for devices with notches */
+  padding-top: max(env(safe-area-inset-top), 30px) !important;
+  padding-bottom: max(env(safe-area-inset-bottom), 0px) !important;
+  padding-left: env(safe-area-inset-left) !important;
+  padding-right: env(safe-area-inset-right) !important;
 }
 
 .app-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px;
+  padding: 15px 20px 10px 20px;
   background: rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(10px);
+  flex-shrink: 0;
+  min-height: 60px;
+  
+  /* Ensure header is always accessible */
+  position: relative;
+  z-index: 100;
 }
 
 .app-header h1 {
@@ -263,24 +277,36 @@
 
 /* iPhone 15 Pro and similar tall phones */
 @media (max-width: 430px) and (max-height: 950px) {
+  .app {
+    /* Extra safe area handling for iPhone 15 Pro */
+    padding-top: max(env(safe-area-inset-top), 35px) !important;
+    padding-bottom: max(env(safe-area-inset-bottom), 5px) !important;
+  }
+  
   .app-header {
-    padding: 4px 8px;
-    min-height: 40px;
+    padding: 8px 15px 5px 15px;
+    min-height: 50px;
+    /* Ensure header is below notch but accessible */
+    margin-top: 0;
   }
   
   .app-header h1 {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
   }
   
   .new-game-btn {
-    padding: 4px 8px;
-    font-size: 10px;
+    padding: 6px 12px;
+    font-size: 11px;
+    min-height: 32px;
+    /* Make button more accessible */
+    touch-action: manipulation;
   }
   
   .game-container {
     padding: 1px;
     gap: 0px;
     justify-content: space-evenly;
+    flex: 1;
   }
   
   .board-container {
