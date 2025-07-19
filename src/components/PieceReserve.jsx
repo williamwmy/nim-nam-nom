@@ -20,11 +20,21 @@ const PieceReserve = ({
       e.preventDefault();
       return;
     }
+    
+    // Improve mobile drag experience
+    e.dataTransfer.effectAllowed = 'move';
     e.dataTransfer.setData('text/plain', JSON.stringify({
       size,
       player,
       fromReserve: true
     }));
+    
+    // Add visual feedback
+    e.target.style.opacity = '0.7';
+  };
+
+  const handleDragEnd = (e) => {
+    e.target.style.opacity = '1';
   };
 
   const getPlayerName = (player) => {
@@ -65,10 +75,16 @@ const PieceReserve = ({
                     selectedPiece?.size === size && selectedPiece?.fromReserve && selectedPiece?.player === player 
                       ? 'selected' 
                       : ''
+                  } ${
+                    selectedPiece && isCurrentPlayer && reserves[size] > 0 && 
+                    !(selectedPiece?.size === size && selectedPiece?.fromReserve && selectedPiece?.player === player)
+                      ? 'alternative'
+                      : ''
                   }`}
                   onClick={() => handlePieceClick(size)}
                   draggable={isCurrentPlayer && reserves[size] > 0}
                   onDragStart={(e) => handleDragStart(e, size)}
+                  onDragEnd={handleDragEnd}
                   style={{
                     transform: `translateY(${index * -2}px)`,
                     zIndex: reserves[size] - index

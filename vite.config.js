@@ -8,12 +8,15 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       workbox: {
-        globPatterns: ['**/*.{js,css,html,ico,png,svg}']
+        globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
+        skipWaiting: true,
+        clientsClaim: true
       },
       manifest: {
         name: 'Nim-Nam-Nom',
         short_name: 'NimNamNom',
         description: 'Et morsomt tospiller brettspill inspirert av Gobblet Gobblers',
+        version: '1.3.0',
         theme_color: '#4CAF50',
         background_color: '#ffffff',
         display: 'standalone',

@@ -40,6 +40,13 @@
   transform: scale(1.02);
 }
 
+.board-cell.drag-over {
+  background: rgba(255, 255, 255, 0.95);
+  border: 2px solid #FFD700;
+  transform: scale(1.05);
+  transition: all 0.2s ease;
+}
+
 .board-cell.valid-move.player-1 {
   background: rgba(76, 175, 80, 0.3);
   border: 3px solid #4CAF50;
@@ -88,6 +95,16 @@
 
 .piece.clickable:hover {
   transform: scale(1.05);
+}
+
+.piece.selected {
+  animation: boardPieceSelected 1s ease-in-out infinite alternate;
+  transform: scale(1.1);
+}
+
+.piece.alternative {
+  border: 2px dashed rgba(255, 255, 255, 0.8);
+  animation: boardPieceAlternative 2s ease-in-out infinite;
 }
 
 .piece.small {
@@ -354,5 +371,25 @@
   .valid-move-indicator.player-2 {
     width: 12px;
     height: 12px;
+  }
+}
+
+@keyframes boardPieceSelected {
+  from {
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.5);
+  }
+  to {
+    box-shadow: 0 8px 20px rgba(255, 255, 255, 0.8);
+  }
+}
+
+@keyframes boardPieceAlternative {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scale(1.03);
+    opacity: 1;
   }
 }

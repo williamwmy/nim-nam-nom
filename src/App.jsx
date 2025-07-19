@@ -3,6 +3,7 @@ import { useGameState } from './hooks/useGameState';
 import { checkWinCondition, getValidMoves } from './utils/gameLogic';
 import GameBoard from './components/GameBoard';
 import PieceReserve from './components/PieceReserve';
+import UpdatePrompt from './components/UpdatePrompt';
 import packageJson from '../package.json';
 import './App.css';
 
@@ -49,6 +50,8 @@ function App() {
 
   const handlePieceSelect = (piece) => {
     if (piece.player !== currentPlayer) return;
+    
+    // Allow switching between pieces - always update selection
     setSelectedPiece(piece);
   };
 
@@ -165,6 +168,7 @@ function App() {
             winningLine={gameResult?.line}
             onDrop={handleDrop}
             currentPlayer={currentPlayer}
+            selectedPiece={selectedPiece}
           />
         </div>
 
@@ -197,6 +201,9 @@ function App() {
       <div className="version-info">
         v{packageJson.version}
       </div>
+
+      {/* Update prompt */}
+      <UpdatePrompt />
     </div>
   );
 }
