@@ -4,6 +4,7 @@ import { checkWinCondition, getValidMoves } from './utils/gameLogic';
 import GameBoard from './components/GameBoard';
 import PieceReserve from './components/PieceReserve';
 import UpdatePrompt from './components/UpdatePrompt';
+import ConfettiEffect from './components/ConfettiEffect';
 import packageJson from '../package.json';
 import './App.css';
 
@@ -27,17 +28,19 @@ function App() {
   const [selectedPiece, setSelectedPiece] = useState(null);
   const [validMoves, setValidMoves] = useState([]);
   const [gameResult, setGameResult] = useState(null);
-  const [showWinModal, setShowWinModal] = useState(true);
+  const [showConfetti, setShowConfetti] = useState(false);
 
   // Check for win condition after each move
   useEffect(() => {
     const result = checkWinCondition(board);
     if (result) {
       setGameResult(result);
-      setShowWinModal(true);
+      setShowConfetti(true);
+      // Stop confetti after 4 seconds
+      setTimeout(() => setShowConfetti(false), 4000);
     } else {
       setGameResult(null);
-      setShowWinModal(true);
+      setShowConfetti(false);
     }
   }, [board]);
 
@@ -138,15 +141,11 @@ function App() {
     resetGame();
     setSelectedPiece(null);
     setGameResult(null);
-    setShowWinModal(true);
+    setShowConfetti(false);
   };
 
   const handleCancelSelection = () => {
     setSelectedPiece(null);
-  };
-
-  const handleHideWinModal = () => {
-    setShowWinModal(false);
   };
 
   const getPlayerName = (player) => {
@@ -206,19 +205,6 @@ function App() {
         />
       </main>
 
-      {/* Win modal */}
-      {gameResult && showWinModal && (
-        <div className="win-modal" onClick={handleHideWinModal}>
-          <div className="win-content" onClick={e => e.stopPropagation()}>
-            <h2>🎉 {getPlayerName(gameResult.player)} vinner! 🎉</h2>
-            <p>Gratulerer med seieren!</p>
-            <p className="win-instruction">Klikk utenfor denne boksen for å se vinnerlinja</p>
-            <button className="play-again-btn" onClick={handleNewGame}>
-              Spill igjen
-            </button>
-          </div>
-        </div>
-      )}
 
       {/* Version number */}
       <div className="version-info">
@@ -227,6 +213,9 @@ function App() {
 
       {/* Update prompt */}
       <UpdatePrompt />
+      
+      {/* Confetti effect */}
+      <ConfettiEffect isActive={showConfetti} duration={4000} />
     </div>
   );
 }

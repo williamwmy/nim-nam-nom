@@ -96,6 +96,11 @@
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
 }
 
+.reserve-piece.interactive:active {
+  transform: translateY(-2px) scale(1.05);
+  transition: all 0.1s ease;
+}
+
 .reserve-piece.selected {
   transform: translateY(-6px) scale(1.15);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
@@ -181,6 +186,23 @@
   50% {
     transform: scale(1.05);
     opacity: 1;
+  }
+}
+
+/* Enhanced touch feedback for mobile */
+@media (hover: none) and (pointer: coarse) {
+  .reserve-piece.interactive {
+    transition: all 0.2s ease;
+  }
+  
+  .reserve-piece.interactive:active {
+    transform: translateY(-1px) scale(1.02);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+  
+  .piece-reserve.active {
+    background: rgba(255, 255, 255, 0.25);
+    transform: scale(1.01);
   }
 }
 

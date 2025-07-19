@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './GameBoard.css';
 
 const GameBoard = ({ 
@@ -11,6 +11,31 @@ const GameBoard = ({
   currentPlayer,
   selectedPiece
 }) => {
+  const [placingPieces, setPlacingPieces] = useState(new Set());
+  const [highlightedCells, setHighlightedCells] = useState(new Set());
+  
+  // Track when new pieces are added to trigger animation
+  useEffect(() => {
+    const currentPieceIds = new Set();
+    board.forEach((row, rowIndex) => {
+      row.forEach((cell, colIndex) => {
+        cell.forEach(piece => {
+          currentPieceIds.add(piece.id);
+        });
+      });
+    });
+    
+    // Clear old placing animations
+    setPlacingPieces(prev => {
+      const newSet = new Set();
+      prev.forEach(id => {
+        if (currentPieceIds.has(id)) {
+          newSet.add(id);
+        }
+      });
+      return newSet;
+    });
+  }, [board]);
   const isValidMove = (row, col) => {
     return validMoves.some(move => move.row === row && move.col === col);
   };
@@ -38,9 +63,36 @@ const GameBoard = ({
   const handleDrop = (e, row, col) => {
     e.preventDefault();
     e.target.classList.remove('drag-over');
+    
+    // Add highlight animation to cell
+    const cellKey = `${row}-${col}`;
+    setHighlightedCells(prev => new Set(prev).add(cellKey));
+    setTimeout(() => {
+      setHighlightedCells(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(cellKey);
+        return newSet;
+      });
+    }, 300);
+    
     if (onDrop) {
       onDrop(row, col, e);
     }
+  };
+  
+  const handleCellClick = (row, col) => {
+    // Add highlight animation to cell
+    const cellKey = `${row}-${col}`;
+    setHighlightedCells(prev => new Set(prev).add(cellKey));
+    setTimeout(() => {
+      setHighlightedCells(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(cellKey);
+        return newSet;
+      });
+    }, 300);
+    
+    onCellClick(row, col);
   };
 
   return (
@@ -50,8 +102,8 @@ const GameBoard = ({
           {row.map((cell, colIndex) => (
             <div
               key={`${rowIndex}-${colIndex}`}
-              className={`board-cell ${isValidMove(rowIndex, colIndex) ? `valid-move player-${currentPlayer}` : ''} ${isWinningCell(rowIndex, colIndex) ? 'winning-cell' : ''}`}
-              onClick={() => onCellClick(rowIndex, colIndex)}
+              className={`board-cell ${isValidMove(rowIndex, colIndex) ? `valid-move player-${currentPlayer}` : ''} ${isWinningCell(rowIndex, colIndex) ? 'winning-cell' : ''} ${highlightedCells.has(`${rowIndex}-${colIndex}`) ? 'highlight' : ''}`}
+              onClick={() => handleCellClick(rowIndex, colIndex)}
               onDragOver={handleDragOver}
               onDragEnter={handleDragEnter}
               onDragLeave={handleDragLeave}

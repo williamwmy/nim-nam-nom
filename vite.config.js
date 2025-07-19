@@ -16,7 +16,7 @@ export default defineConfig({
         name: 'Nim-Nam-Nom',
         short_name: 'NimNamNom',
         description: 'Et morsomt tospiller brettspill inspirert av Gobblet Gobblers',
-        version: '1.3.3',
+        version: '1.4.0',
         theme_color: '#4CAF50',
         background_color: '#ffffff',
         display: 'standalone',

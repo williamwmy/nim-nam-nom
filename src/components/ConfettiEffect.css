@@ -1,0 +1,92 @@
+.confetti-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 10000;
+  overflow: hidden;
+}
+
+.confetti-piece {
+  position: absolute;
+  pointer-events: none;
+}
+
+.confetti-circle {
+  border-radius: 50%;
+}
+
+.confetti-square {
+  /* Square shape - no additional styling needed */
+}
+
+.confetti-triangle {
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 10px solid;
+}
+
+@keyframes confetti-fall {
+  to {
+    top: calc(100vh + 20px);
+    left: calc(var(--start-x, 50%) + var(--horizontal-drift, 0px));
+  }
+}
+
+@keyframes confetti-rotate {
+  to {
+    transform: rotate(var(--rotation-end, 360deg));
+  }
+}
+
+/* Additional sparkle effect for extra celebration */
+.confetti-sparkle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: radial-gradient(circle, #FFD700 0%, transparent 70%);
+  border-radius: 50%;
+  animation: sparkle 1s ease-in-out infinite alternate;
+}
+
+@keyframes sparkle {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1.5);
+  }
+}
+
+/* Mobile optimization */
+@media (max-width: 768px) {
+  .confetti-piece {
+    /* Reduce confetti density on mobile for better performance */
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .confetti-piece {
+    animation-duration: 1s !important;
+  }
+  
+  @keyframes confetti-fall {
+    to {
+      top: calc(100vh + 20px);
+      left: var(--start-x, 50%);
+    }
+  }
+  
+  @keyframes confetti-rotate {
+    to {
+      transform: rotate(45deg);
+    }
+  }
+}
