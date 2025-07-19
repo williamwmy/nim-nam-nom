@@ -76,6 +76,9 @@ function App() {
         if (success) {
           setSelectedPiece(null);
         }
+      } else {
+        // If can't place here, deselect the piece to allow new selection
+        setSelectedPiece(null);
       }
       return;
     }
@@ -134,6 +137,10 @@ function App() {
     setGameResult(null);
   };
 
+  const handleCancelSelection = () => {
+    setSelectedPiece(null);
+  };
+
   const getPlayerName = (player) => {
     return player === PLAYERS.PLAYER1 ? 'Grønn' : 'Oransje';
   };
@@ -142,9 +149,16 @@ function App() {
     <div className="app">
       <header className="app-header">
         <h1>🎮 Nim-Nam-Nom</h1>
-        <button className="new-game-btn" onClick={handleNewGame}>
-          Nytt spill
-        </button>
+        <div className="header-buttons">
+          {selectedPiece && (
+            <button className="cancel-btn" onClick={handleCancelSelection}>
+              Avbryt valg
+            </button>
+          )}
+          <button className="new-game-btn" onClick={handleNewGame}>
+            Nytt spill
+          </button>
+        </div>
       </header>
 
       <main className="game-container">

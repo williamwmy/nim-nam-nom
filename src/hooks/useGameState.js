@@ -35,7 +35,10 @@ const createInitialReserves = () => ({
 export const useGameState = () => {
   const [board, setBoard] = useState(initialBoard);
   const [reserves, setReserves] = useState(createInitialReserves());
-  const [currentPlayer, setCurrentPlayer] = useState(PLAYERS.PLAYER1);
+  const [currentPlayer, setCurrentPlayer] = useState(() => {
+    // Randomly choose starting player
+    return Math.random() < 0.5 ? PLAYERS.PLAYER1 : PLAYERS.PLAYER2;
+  });
   const [gameWon, setGameWon] = useState(false);
   const [winningLine, setWinningLine] = useState(null);
   const [winner, setWinner] = useState(null);
@@ -112,7 +115,8 @@ export const useGameState = () => {
   const resetGame = useCallback(() => {
     setBoard(initialBoard);
     setReserves(createInitialReserves());
-    setCurrentPlayer(PLAYERS.PLAYER1);
+    // Randomly choose starting player for new game
+    setCurrentPlayer(Math.random() < 0.5 ? PLAYERS.PLAYER1 : PLAYERS.PLAYER2);
     setGameWon(false);
     setWinningLine(null);
     setWinner(null);

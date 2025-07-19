@@ -43,10 +43,13 @@
   font-size: 2.5rem;
   font-weight: bold;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-  background: linear-gradient(45deg, #FFD700, #FF6B6B);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: white;
+}
+
+.header-buttons {
+  display: flex;
+  gap: 8px;
+  align-items: center;
 }
 
 .new-game-btn {
@@ -63,6 +66,24 @@
 }
 
 .new-game-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+}
+
+.cancel-btn {
+  background: linear-gradient(45deg, #FF6B6B, #E53E3E);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.cancel-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
 }
@@ -209,6 +230,11 @@
     font-size: 14px;
   }
   
+  .cancel-btn {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+  
   .game-container {
     padding: 3px;
     gap: 3px;
@@ -235,6 +261,11 @@
   }
   
   .new-game-btn {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+  
+  .cancel-btn {
     padding: 6px 12px;
     font-size: 12px;
   }
@@ -269,6 +300,11 @@
     font-size: 11px;
   }
   
+  .cancel-btn {
+    padding: 4px 8px;
+    font-size: 11px;
+  }
+  
   .game-container {
     gap: 2px;
     padding: 3px;
@@ -295,6 +331,14 @@
   }
   
   .new-game-btn {
+    padding: 6px 12px;
+    font-size: 11px;
+    min-height: 32px;
+    /* Make button more accessible */
+    touch-action: manipulation;
+  }
+  
+  .cancel-btn {
     padding: 6px 12px;
     font-size: 11px;
     min-height: 32px;
