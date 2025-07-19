@@ -130,20 +130,41 @@ const GameBoard = ({
                       draggable={isTopPiece}
                       onDragStart={(e) => {
                         if (isTopPiece) {
+                          // Immediate drag setup with minimal delay
                           e.dataTransfer.effectAllowed = 'move';
-                          e.dataTransfer.setData('text/plain', JSON.stringify({
+                          e.dataTransfer.dropEffect = 'move';
+                          e.dataTransfer.dragImage = e.currentTarget;
+                          
+                          // Set drag data immediately in multiple formats
+                          const dragData = JSON.stringify({
                             size: piece.size,
                             player: piece.player,
                             fromReserve: false,
                             row: rowIndex,
                             col: colIndex
-                          }));
-                          e.target.style.opacity = '0.7';
+                          });
+                          e.dataTransfer.setData('text/plain', dragData);
+                          e.dataTransfer.setData('application/json', dragData);
+                          e.dataTransfer.setData('text/x-drag-data', dragData);
+                          
+                          // Instant visual feedback without transform to prevent revealing pieces below
+                          requestAnimationFrame(() => {
+                            e.currentTarget.style.opacity = '0.7';
+                            e.currentTarget.style.zIndex = '1000';
+                            e.currentTarget.style.transition = 'none';
+                            e.currentTarget.style.boxShadow = '0 8px 24px rgba(0, 0, 0, 0.4)';
+                          });
                         }
                       }}
                       onDragEnd={(e) => {
                         if (isTopPiece) {
-                          e.target.style.opacity = '1';
+                          // Reset visual state immediately with smooth transition
+                          requestAnimationFrame(() => {
+                            e.currentTarget.style.transition = 'all 0.2s ease';
+                            e.currentTarget.style.opacity = '1';
+                            e.currentTarget.style.zIndex = pieceIndex + 1;
+                            e.currentTarget.style.boxShadow = '';
+                          });
                         }
                       }}
                     >

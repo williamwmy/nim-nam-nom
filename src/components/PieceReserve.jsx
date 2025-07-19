@@ -21,20 +21,40 @@ const PieceReserve = ({
       return;
     }
     
-    // Improve mobile drag experience
+    // Immediate drag setup with minimal delay for smooth experience
     e.dataTransfer.effectAllowed = 'move';
-    e.dataTransfer.setData('text/plain', JSON.stringify({
+    e.dataTransfer.dropEffect = 'move';
+    e.dataTransfer.dragImage = e.currentTarget;
+    
+    // Set drag data in multiple formats for maximum compatibility
+    const dragData = JSON.stringify({
       size,
       player,
-      fromReserve: true
-    }));
+      fromReserve: true,
+      row: null,
+      col: null
+    });
+    e.dataTransfer.setData('text/plain', dragData);
+    e.dataTransfer.setData('application/json', dragData);
+    e.dataTransfer.setData('text/x-drag-data', dragData);
     
-    // Add visual feedback
-    e.target.style.opacity = '0.7';
+    // Instant visual feedback using requestAnimationFrame for smooth performance
+    requestAnimationFrame(() => {
+      e.currentTarget.style.opacity = '0.7';
+      e.currentTarget.style.transform = 'scale(1.1) translateY(-5px)';
+      e.currentTarget.style.zIndex = '1000';
+      e.currentTarget.style.transition = 'none';
+    });
   };
 
   const handleDragEnd = (e) => {
-    e.target.style.opacity = '1';
+    // Reset visual state with smooth transition
+    requestAnimationFrame(() => {
+      e.target.style.transition = 'all 0.2s ease';
+      e.target.style.opacity = '1';
+      e.target.style.transform = '';
+      e.target.style.zIndex = '';
+    });
   };
 
   const getPlayerName = (player) => {

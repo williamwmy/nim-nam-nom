@@ -86,9 +86,20 @@
   cursor: pointer;
   user-select: none;
   
-  /* Better touch support */
+  /* Optimized touch support for instant drag response */
   touch-action: none;
   -webkit-user-drag: element;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+  /* Prevent context menu on long press */
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  /* Optimize for touch interactions */
+  will-change: transform, opacity;
 }
 
 .reserve-piece.interactive:hover {
