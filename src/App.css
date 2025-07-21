@@ -286,6 +286,49 @@
   }
 }
 
+/* iPad specific media queries */
+@media screen and (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+  .app {
+    /* Better iPad portrait scaling */
+    transform: scale(1.0);
+    transform-origin: center center;
+  }
+  
+  .app-header h1 {
+    font-size: 2.2rem;
+  }
+  
+  .game-container {
+    padding: 10px;
+    gap: 8px;
+    max-width: 90%;
+    margin: 0 auto;
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+  .app {
+    /* Better iPad landscape scaling */
+    transform: scale(1.0);
+    transform-origin: center center;
+  }
+  
+  .app-header {
+    padding: 10px 20px;
+  }
+  
+  .app-header h1 {
+    font-size: 2.0rem;
+  }
+  
+  .game-container {
+    padding: 8px;
+    gap: 6px;
+    max-width: 85%;
+    margin: 0 auto;
+  }
+}
+
 /* Version info */
 .version-info {
   position: fixed;
